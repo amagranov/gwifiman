@@ -14,16 +14,16 @@ Cron будет запускать shell скрипт, который будет
 
 # Установка
 Если еще нет настроенной гостевой WiFi сети, настраиваем ее по одному из гайдов. Например:<br>
-[тут][https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_webinterface]<br>
-[тут][https://lsetc.ru/gostevoj-wi-fi-na-openwrt-cherez-luci/]<br>
-[или тут][https://developersu.blogspot.com/2015/08/wifi-openwrt-luci.html]<br>
+[тут](https://openwrt.org/docs/guide-user/network/wifi/guestwifi/configuration_webinterface)<br>
+[тут](https://lsetc.ru/gostevoj-wi-fi-na-openwrt-cherez-luci/)<br>
+[или тут](https://developersu.blogspot.com/2015/08/wifi-openwrt-luci.html)<br>
 
 Затем подключаемся к роутеру по SSH.<br>
 Качаем скрипт install.sh, например командой<br>
-`wget -O install.sh https://github.com/amagranov/gwifiman/blob/main/install.sh`
+```wget -O install.sh https://github.com/amagranov/gwifiman/blob/main/install.sh```<br>
 Даем разрешения на запуск<br>
-`chmod +x install.sh и запускаем`<br>
-`./install.sh`<br>
+```chmod +x install.sh``` и запускаем<br>
+```./install.sh```<br>
 В процессе установки скрипт запрашивает какую сеть из настроенных на роутере использовать в качестве гостевой, какое шифрование у этой сети (обычно WPA), является ли сеть скрытой или отображается в списке сетей (я использую скрытую) и через какой интервал времени производить смену пароля.<br>
 После окончания установки для отображения QR кода нужно открыть в браузере на устройстве, подключенном к домашней сети ссылку http://{IP адрес роутера}/guest.html<br>
 По ссылке отображается QR код и обратный отсчет со временем действия текущего пароля.<br>
