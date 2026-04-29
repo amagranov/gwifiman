@@ -216,6 +216,7 @@ rm /www/js/qrcode.min.js
 rm /www/js/genqr.js
 rm /dev/shm/genqr.js
 rm $mainScriptFileName
+rm $lastRunTimeFileName
 crontab -l | grep -v '$mainScriptFileName' | crontab -
 EOF
 chmod +x uninstall.sh
