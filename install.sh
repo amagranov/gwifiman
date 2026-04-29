@@ -144,14 +144,13 @@ function refreshTimer() {
   const diffMs = wifiExpTime - currentTime;
   if (diffMs > 0) {
    let totalSeconds = Math.floor(diffMs / 1000);
-   const days = Math.floor(totalSeconds / (24 * 60 * 60);
+   const days = Math.floor(totalSeconds / (24 * 60 * 60));
    totalSeconds = (totalSeconds - days * 24 * 60 * 60)
-   const hours = Math.floor(totalSeconds / (60 * 60);
+   const hours = Math.floor(totalSeconds / (60 * 60));
    totalSeconds = (totalSeconds - hours * 60 * 60)
    const minutes = Math.floor(totalSeconds / 60);
    const seconds = totalSeconds % 60;
-   let daysStr = days > 0 ? 
-   e.innerHTML = 'Осталось: ' + (days > 0) ? days + "д. " : "") + hours.toString().padStart(2, '0') + minutes + ":" + seconds.toString().padStart(2, '0');
+   e.innerHTML = 'Осталось: ' + (days > 0 ? days + "д. " : "") + hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
    setTimeout(refreshTimer, 1000);
   } else {
    e.innerHTML = 'Истек срок действия<br>Дождитесь обновления';
