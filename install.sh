@@ -93,15 +93,15 @@ while true; do
   echo "Неправильный ввод. Пожалуйста введите 1 или 2"
 done
 while true; do
-  read -p "Период действия пароля гостевой WiFi сети в минутах (от 15 до 43200) [1440 - 1 день]: " userOption
+  read -p "Период действия пароля гостевой WiFi сети в минутах (от 5 до 43200) [1440 - 1 день]: " userOption
   userOption=${userOption:-1440}
   if [ "$userOption" -eq "$userOption" ] 2>/dev/null; then
-   if [[ $userOption -ge 15 &&  $userOption -le 43200 ]]; then
+   if [[ $userOption -ge 5 &&  $userOption -le 43200 ]]; then
     keyChangeInterval=$((userOption))
     break
    fi
   fi
-  echo "Неправильный ввод. Пожалуйста введите целое число от 1 до 30"
+  echo "Неправильный ввод. Пожалуйста введите целое число от 5 до 43200"
 done
 regex="s/(.+)\.ssid.{0,}=.{0,}'(.+)'.{0,}/\1/" #regex, который поможет нам найти названия параметров для конфигурирования WiFi сети
 paramNames=""
@@ -153,7 +153,7 @@ function refreshTimer() {
   const wifiExpTime = new Date("\$expTimeStr");
   const currentTime = new Date();
   const diffMs = wifiExpTime - currentTime;
-  if (diffMs > 0) {
+  if (diffMs > 0 && diffMs < 5 * 60 * 1000) {
    let totalSeconds = Math.floor(diffMs / 1000);
    const days = Math.floor(totalSeconds / (24 * 60 * 60));
    totalSeconds = (totalSeconds - days * 24 * 60 * 60)
@@ -163,7 +163,7 @@ function refreshTimer() {
    const seconds = totalSeconds % 60;
    e.innerHTML = 'Осталось: ' + (days > 0 ? days + "д. " : "") + hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
    setTimeout(refreshTimer, 1000);
-  } else {
+  } else f (diffMs <= 0) {
    e.innerHTML = 'Истек срок действия<br>Дождитесь обновления';
    setTimeout(reloadPage, 5000);
   }
