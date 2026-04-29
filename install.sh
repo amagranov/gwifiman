@@ -121,15 +121,27 @@ for item in $paramNames; do
  fi
  configureKeyCommands="${configureKeyCommands}uci set $item.key=\$wifiPass"
 done
+lastRunTimeFileName="/dev/shm/" + $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12)
 #Создаем скрипт, который будет запускаться cron'ом, настраивать параметры WiFi и обновлять страницу, которая отображает QR код для конфигурирования сети
 cat <<EOF1 > $mainScriptFileName
 #!/bin/sh
 #Проверим, есть ли файл javascript, который создает QR код. Если файла нет, создадим в ОЗУ и создадим ссылку на него в каталоге /www/js
 if [ ! -f "/dev/shm/genqr.js" ]; then
-cat <<EOF > /dev/shm/genqr.js
-EOF
+ touch /dev/shm/genqr.js
  ln -s /dev/shm/genqr.js /www/js/genqr.js
 fi
+currentDate=$(date +%s)
+#получим из файла последнее время смены пароля скриптом (если файл есть)
+if [ -f "$lastRunTimeFileName" ]; then
+    lastRunTime=\$(cat "$lastRunTimeFileName")
+else
+    lastRunTime=0
+fi
+diffMinutes=\$(( (currentDate - lastRunTime) / 60 ))
+if [ \$diffMinutes -lt $keyChangeInterval ]; then #если интервал еще не достигнут, ничего больше не делаем, выходим
+ exit 0
+fi
+echo \$currentDate > "$lastRunTimeFileName"
 wifiPass=\$(openssl rand -base64 12)
 now=\$(date +%s)
 expTime=\$((now + $keyChangeInterval * 60))
@@ -196,7 +208,7 @@ cat <<EOF > /www/guest.html
 </html>
 EOF
 chmod +x $mainScriptFileName
-JOB="*/$keyChangeInterval * * * * $mainScriptFileName"
+JOB="* * * * * $mainScriptFileName"
 (crontab -l 2>/dev/null | grep -Fv "$mainScriptFileName"; echo "$JOB") | crontab -
 cat <<EOF > uninstall.sh
 rm /www/guest.html
