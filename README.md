@@ -28,7 +28,7 @@ Cron будет запускать shell скрипт, который будет
 Затем подключаемся к роутеру по SSH.<br>
 Качаем скрипт install.sh, даем разрешения на запуск и запускаем скрипт установки<br>
 ```
-curl -O https://github.com/amagranov/gwifiman/blob/main/install.sh
+curl -O https://raw.githubusercontent.com/amagranov/gwifiman/main/install.sh
 chmod +x install.sh
 ./install.sh
 ```
