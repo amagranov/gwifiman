@@ -121,7 +121,7 @@ for item in $paramNames; do
  fi
  configureKeyCommands="${configureKeyCommands}uci set $item.key=\$wifiPass"
 done
-lastRunTimeFileName="/dev/shm/" + $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12)
+lastRunTimeFileName="/dev/shm/$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12)" 
 #Создаем скрипт, который будет запускаться cron'ом, настраивать параметры WiFi и обновлять страницу, которая отображает QR код для конфигурирования сети
 cat <<EOF1 > $mainScriptFileName
 #!/bin/sh
