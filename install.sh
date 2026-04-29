@@ -129,6 +129,11 @@ if [ ! -f "/dev/shm/genqr.js" ]; then
  touch /dev/shm/genqr.js
  ln -s /dev/shm/genqr.js /www/js/genqr.js
 fi
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 365193c (Update readme. Changed time interval)
 currentDate=\$(date +%s)
 #получим из файла последнее время смены пароля скриптом (если файл есть)
 if [ -f "$lastRunTimeFileName" ]; then
@@ -141,6 +146,10 @@ if [ \$diffMinutes -lt $keyChangeInterval ]; then #если интервал е�
  exit 0
 fi
 echo \$currentDate > "$lastRunTimeFileName"
+<<<<<<< HEAD
+=======
+>>>>>>> fcd9549 (Update readme. Changed time interval)
+>>>>>>> 365193c (Update readme. Changed time interval)
 wifiPass=\$(openssl rand -base64 12)
 now=\$(date +%s)
 expTime=\$((now + $keyChangeInterval * 60))
