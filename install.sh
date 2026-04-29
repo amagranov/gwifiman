@@ -92,12 +92,11 @@ while true; do
   fi
   echo "Неправильный ввод. Пожалуйста введите 1 или 2"
 done
-keyChangeInterval=15
 while true; do
-  read -p "Период действия пароля гостевой WiFi сети в минутах [15]: " userOption
-  userOption=${userOption:-15}
+  read -p "Период действия пароля гостевой WiFi сети в минутах (от 15 до 43200) [1440 - 1 день]: " userOption
+  userOption=${userOption:-1440}
   if [ "$userOption" -eq "$userOption" ] 2>/dev/null; then
-   if [[ $userOption -ge 1 &&  $userOption -le 30 ]]; then
+   if [[ $userOption -ge 15 &&  $userOption -le 43200 ]]; then
     keyChangeInterval=$((userOption))
     break
    fi
@@ -130,7 +129,7 @@ if [ ! -f "/dev/shm/genqr.js" ]; then
  touch /dev/shm/genqr.js
  ln -s /dev/shm/genqr.js /www/js/genqr.js
 fi
-currentDate=$(date +%s)
+currentDate=\$(date +%s)
 #получим из файла последнее время смены пароля скриптом (если файл есть)
 if [ -f "$lastRunTimeFileName" ]; then
     lastRunTime=\$(cat "$lastRunTimeFileName")
